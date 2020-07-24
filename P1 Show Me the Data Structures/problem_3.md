@@ -7,11 +7,11 @@ As
 	The up-heapify and down-heapify take log(n) time;
 	Heap sort insert all the element into one heap is log(1) + log(2) + ... + log(n) = log(n!);
 	get_encoding_dict takes O(1*n) on average, while O(n*n) on the worst cases.
-So the encoding process is O(log(n!)), which approximate to O(n).
+So the encoding process is O(log(n!)), which approximate to O(n*log(n)).
 
 While The decoding process is O(n).
 
-So the whole process is O(log(n!)) on average which approximate to O(n), while O(n*n) on the worst cases.
+So the whole process is O(n*log(n)) on average, while O(n*n) on the worst cases.
 
 
 For the space complexity:
