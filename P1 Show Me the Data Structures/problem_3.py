@@ -35,7 +35,7 @@ class Heap:
         # place last element of the cbt at the root
         self.cbt[0] = last_element
 
-        # we do not remove the elementm, rather we allow next `insert` operation to overwrite it
+        # we do not remove the element, rather we allow next `insert` operation to overwrite it
         self.cbt[self.next_index] = to_remove
         self._down_heapify()
         return to_remove
@@ -134,7 +134,7 @@ class Node:
     def setRight(self,node):
         self.right = node
 
-def get_encoding_dict(root):
+def get_encoding_dict(root): 
     if root.name:
         return {root.name:''}
     else:
@@ -144,8 +144,10 @@ def get_encoding_dict(root):
 
 
 def huffman_encoding(data):
+    if not data:
+        return "1",None
 
-	# Use Counter to count every kind of characters
+    # Use Counter to count every kind of characters
     counter = Counter(data)
     counter = [(key,value) for key,value in counter.items()]
     
@@ -168,12 +170,26 @@ def huffman_encoding(data):
         
     # Use the generated tree to make the encoding dict for each character
     tree = heap.cbt[0]
-    encoding_dict = get_encoding_dict(tree)
+    
+    # Check for single character repeated value.
+    if not (tree.left or tree.right):
+        encoding_dict = {tree.name:'0'}
+    else:
+        encoding_dict = get_encoding_dict(tree)
     encoded_data = ''.join([encoding_dict[x] for x in data])
     
+    # print(encoding_dict)
+    # print(encoded_data)
+
     return encoded_data, tree
 
 def huffman_decoding(data,tree):
+    if data == "1":
+        return ""
+    
+    if not (tree.left or tree.right):
+        return tree.name * len(data)
+
     decoded_data = []
 
     # Parse through the tree to decode the data
@@ -192,7 +208,8 @@ def huffman_decoding(data,tree):
 
 
 if __name__ == "__main__":
-    codes = {}
+
+    print('\nTest case 1:')
 
     a_great_sentence = "The bird is the word"
 
@@ -216,3 +233,86 @@ if __name__ == "__main__":
     # Return: 69
     print ("The content of the encoded data is: {}\n".format(decoded_data))
     # Return: "The bird is the word"
+
+
+
+
+    print('\nTest case 2')
+
+    a_great_sentence = "aaaaa"
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    # Return: 30
+
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+    # Return: "aaaaa"
+
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    # Return: 12
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    # Return: "00000"
+
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    # Return: 30
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    # Return: "aaaaa"
+
+
+
+    print('\nTest case 3')
+
+    a_great_sentence = ""
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    # Return: 25
+
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+    # Return: ""
+
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    # Return: 14
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    # Return: "1"
+
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+
+
+
+    print('\nTest case 4')
+
+    a_great_sentence = "我叫野原新之助，我贼讨厌吃青椒！"
+
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    # Return: 70
+
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+    # Return: "我叫野原新之助，我贼讨厌吃青椒！"
+
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    # Return: 20
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    # Return: "00011001111110110100110011100100001001111010110101010010000011"
+
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    # Return: 70
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    # Return: "我叫野原新之助，我贼讨厌吃青椒！"
+
+
+
+
