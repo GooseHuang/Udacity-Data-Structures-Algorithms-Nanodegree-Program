@@ -37,6 +37,12 @@ def test_function(test_case):
 # Test cases
 test_function([])
 # Return: pass
+test_function([0])
+# Return: pass
+test_function([1])
+# Return: pass
+test_function([2])
+# Return: pass
 test_function([0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2])
 # Return: pass
 test_function([2, 1, 2, 0, 0, 2, 1, 0, 1, 0, 0, 2, 2, 2, 1, 2, 0, 0, 0, 2, 1, 0, 2, 0, 0, 1])

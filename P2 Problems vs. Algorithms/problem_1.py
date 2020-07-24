@@ -1,4 +1,4 @@
-def sqrt(number):
+def sqrt(number=None):
     """
     Calculate the floored square root of a number
 
@@ -7,8 +7,14 @@ def sqrt(number):
     Returns:
        int: Floored Square Root
     """
+    if number == None:
+        return None
+    
     if number <= 1:
-        return number
+        if number <0:
+            return None
+        else:
+            return number
     
     upper = number
     lower = 0
@@ -28,6 +34,8 @@ def sqrt(number):
         
     
 # Test cases
+print ("Pass" if  (None == sqrt()) else "Fail")
+print ("Pass" if  (None == sqrt(-27)) else "Fail")
 print ("Pass" if  (3 == sqrt(9)) else "Fail")
 print ("Pass" if  (0 == sqrt(0)) else "Fail")
 print ("Pass" if  (4 == sqrt(16)) else "Fail")

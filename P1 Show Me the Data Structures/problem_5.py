@@ -1,62 +1,84 @@
 import hashlib
 import datetime  
 
-def calc_hash(self):
-    sha = hashlib.sha256()
-
-    hash_str = "We are going to encode this string of data!".encode('utf-8')
-
-    sha.update(hash_str)
-
-    return sha.hexdigest()
 
 class Block:
 
-    def __init__(self, data, previous_hash):
+    def __init__(self, data='', previous_hash=None):
+
         self.timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%Z")
         self.data = data
         self.previous_hash = previous_hash
         self.hash = self.calc_hash()
-        
+        self.next = None
+
     def calc_hash(self):
         sha = hashlib.sha256()
-        hash_str = self.data.encode('utf-8')
+
+        hash_str = (self.data + self.timestamp).encode('utf-8')
         sha.update(hash_str)
 
         return sha.hexdigest()
 
+    def insert(self,node):
+        self.next = node
+        node.previous_hash = self.hash
+
+
+
+class BlockChain:
+    def __init__(self, root_data=''):
+        self.root = Block(root_data)
+        self.end = None
+
+    def insert(self, data):
+        if not self.end:
+            self.root.insert(Block(data)) 
+            self.end = self.root.next
+
+        else:
+            self.end.insert(Block(data))
+            self.end = self.end.next
+
+    def printB(self):
+        node = self.root
+        while node:
+            print(node.data)
+            node = node.next
 
 
 print("\nTest case 1:")
-block0 = Block('Hello, everyone!',None)
-block1 = Block('Hi, my name is Goose. Nice to meet you.',block0.hash)
-block2 = Block('Hi, my name is King Kong. I\'m strong!',block1.hash)
-block3 = Block("I'm Jack Black. School of Rock!!!",block2.hash)
 
-print(block1.previous_hash)
-# Return: '195e810fc1bf6bf935b9ba805bd5cba1ee56d7d3bf082103eb33d9bda30a16e4'
+bc = BlockChain("Hello, everyone! I'm Groot!")
+bc.insert("I'm Star-Lord. I'm the greatest idiot!")
+bc.insert("Hi, my name is King Kong. I\'m strong!")
+bc.insert("I'm Jack Black. School of Rock!!!")
 
-print(block2.previous_hash)
-# Return: '70f7158a509eea5dda976dba7ef2c61e5663cb6a6dbd554f33d9660ae8365e7e'
-print(block2.data)
-# Return: "Hi, my name is KingKong. I'm strong!"
-
-print(block3.previous_hash)
-# Return: '1ecd4529283a1687b2bbec6dbd58935fa3652fed161714aa77db4f84abde776e'
-print(block3.data)
-# Return: "I'm Jack Black. School of Rock!!!"
-
+print('Root hash: ',bc.root.hash) # Change each time
+bc.printB()
+# Return:
+#       Hello, everyone! I'm Groot!
+#       I'm Star-Lord. I'm the greatest idiot!
+#       Hi, my name is King Kong. I'm strong!
+#       I'm Jack Black. School of Rock!!!
 
 
 print("\nTest case 2:")
-block0 = Block('Hello, everyone!',None)
-block1 = Block('Hi, my name is Goose. I hate block chain!',block0.hash)
 
-print(block0.previous_hash)
-# Return: None
-print(block1.previous_hash)
-# Return: '195e810fc1bf6bf935b9ba805bd5cba1ee56d7d3bf082103eb33d9bda30a16e4'
+bc = BlockChain("Groot is going out!!!")
+bc.insert("Groot is getting out of bed!")
 
+print('Root hash: ',bc.root.hash) # Change each time
+bc.printB()
+# Return:
+#       Groot is going out!!!
+#       Groot is getting out of bed!
 
-print("\nTest case 3:")
-print("Zero length block chain. No outputs.") 
+print("\nTest case 3: Groot got lost.")
+
+bc = BlockChain()
+
+print('Root hash: ',bc.root.hash) # Change each time
+bc.printB ()
+# Return:
+#       None

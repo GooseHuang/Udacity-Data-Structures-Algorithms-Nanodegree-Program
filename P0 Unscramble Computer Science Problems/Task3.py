@@ -1,9 +1,9 @@
+import csv
+import re
 """
 Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
-import csv
-import re
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -48,7 +48,8 @@ The percentage should have 2 decimal digits
 def find_area(number):
 	if "(" in number:
 		code = re.findall('\((.*?)\)',number)[0]
-	elif " " in number:
+		code = "(" + code +")"
+	elif " " in number and number[0] in ('7','8','9'):
 		code = number[:4]
 	elif number[:3] == "140":
 		code = "140"
@@ -59,25 +60,15 @@ def find_area(number):
 # Part A:
 
 phone_number_list = []
-
-for text in texts:
-	# print("First record of texts, {} texts {} at time {}".format(*text))
-	phone_number_list.append(find_area(text[0]))
-	phone_number_list.append(find_area(text[1]))
-
 for call in calls:
-	# print("Last record of calls, {} calls {} at time {}, lasting {} seconds".format(*call))
-	phone_number_list.append(find_area(call[0]))
-	phone_number_list.append(find_area(call[1]))
-
+	if find_area(call[0]) == "(080)":
+		phone_number_list.append(find_area(call[1]))
 
 phone_number_list = sorted(list(set(phone_number_list)))
 
-
-print("The numbers called by people in Bangalore have codes:")
-for x in phone_number_list:
-	print(x)
-
+print("The numbers called by people in Bangalore have codes: ")
+for phone_number in phone_number_list:
+	print(phone_number)
 
 # Part B: 
 calls_from_bangalore = 0
@@ -85,11 +76,11 @@ answer_from_bangalore = 0
 for call in calls:
 	if "(" in call[0]:
 		code = find_area(call[0])
-		if code == "080":
+		if code == "(080)":
 			calls_from_bangalore += 1
 			if "(" in call[1]:
 				code = find_area(call[1])
-				if code =="080":
+				if code =="(080)":
 					answer_from_bangalore += 1
 
 if calls_from_bangalore != 0:
@@ -97,9 +88,6 @@ if calls_from_bangalore != 0:
 else:
 	percentage = 0
 
-print("")
-# print(calls_from_bangalore)
-# print(answer_from_bangalore)
 
 print("{:.2f} percent of calls from fixed lines in Bangalore are calls \
 to other fixed lines in Bangalore.".format(percentage)) 

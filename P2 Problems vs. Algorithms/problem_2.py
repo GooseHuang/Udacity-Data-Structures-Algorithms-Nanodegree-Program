@@ -77,6 +77,8 @@ def test_function(test_case):
 # Test cases
 test_function([[], -1])
 # Return: pass
+test_function([[6], 6])
+# Return: pass
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 6])
 # Return: pass
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])

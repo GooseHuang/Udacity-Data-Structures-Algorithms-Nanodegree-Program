@@ -6,5 +6,8 @@ It will take log(n) steps to find the start index and another log(n) steps to fi
 So the time complexity is O(log(n)).
 
 For the space complexity:
-The function will store all the numbers in to a list, which will be O(n).
-So the space complexity is O(n).
+Each call uses O(1) space, and the maximum depth of the recursive tree is O(log(n).
+So the space complexity is O(log(n))  
+
+Reference:
+https://www.ideserve.co.in/learn/time-and-space-complexity-of-recursive-algorithms

@@ -1,8 +1,9 @@
+import csv
 """
 Read file into texts and calls.
 It's ok if you don't understand how to read files
 """
-import csv
+
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
@@ -19,24 +20,24 @@ Print a message:
 "<telephone number> spent the longest time, <total time> seconds, on the phone during 
 September 2016.".
 """
-
-
-
-time_list = []
+time_dict = {}
 for call in calls:
-	# print("Last record of calls, {} calls {} at time {}, lasting {} seconds".format(*call))
-	time_list.append(int(call[3]))
+	if call[0] in time_dict.keys():
+		time_dict[call[0]] += int(call[3])
+	else:
+		time_dict[call[0]] = int(call[3])
 
-max_time = max(time_list)
+	if call[1] in time_dict.keys():
+		time_dict[call[1]] += int(call[3])
+	else:
+		time_dict[call[1]] = int(call[3])
 
+max_time = max(time_dict.values())
 
-max_call = []
-for call in calls:
-	# print("Last record of calls, {} calls {} at time {}, lasting {} seconds".format(*call))
-	if int(call[3]) == max_time:
-		max_call.append(call[0])
-		max_call.append(call[1])
-
+max_calls = []
+for key, value in time_dict.items():
+	if value == max_time:
+		max_calls.append(key) 
 
 print("{} spent the longest time, {} seconds, on the phone during \
-September 2016.".format(', '.join(set(max_call)),max_time))
+September 2016.".format(' ,'.join(max_calls),max_time))

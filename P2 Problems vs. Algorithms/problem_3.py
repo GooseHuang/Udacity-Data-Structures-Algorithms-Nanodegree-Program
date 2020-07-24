@@ -42,6 +42,8 @@ def rearrange_digits(input_list):
     """
     if not input_list:
         return []
+    if len(input_list)==1:
+        return input_list
     
     len_smaller = len(input_list) // 2
     len_bigger = len(input_list) - len_smaller
@@ -77,6 +79,8 @@ def test_function(test_case):
 test_function([[4, 6, 2, 1, 9, 1, 6, 7, 5, 9, 8], [986521, 97641]])
 # Return: pass
 test_function([[], []])
+# Return: pass
+test_function([[3], [3]])
 # Return: pass
 test_function([[1, 2, 3, 4, 5], [542, 31]])
 # Return: pass
