@@ -1,0 +1,21 @@
+# Task0
+O(n) -- As the program will go through every line and print them out.
+
+# Task1
+O(n) -- Because going through every line is O(n), and  iterating through a list then converting it to set is also O(n). So the whole process is approximately O(n).
+
+# Task2
+O(n) -- Same as Task1.
+
+# Task3
+O(n*log(n)) -- The whole process will linearly go through every line and sort. The sort of a list is O(n*log(n)). So O(n*log(n)).
+
+# Task4
+O(n*log(n)) -- As the time complexity of difference in set is O(size(Set_A) + size(Set_B)), 
+		the iterate process for text and call will be O(2n),
+		difference of sets is O(n),
+		sorting is O(n*log(n)),
+           	      we will count on the main part. So the whole process will be approximate to O(n*log(n))
+
+# Reference
+https://www.ics.uci.edu/~pattis/ICS-33/lectures/complexitypython.txt
